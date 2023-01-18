@@ -1,0 +1,112 @@
+service: bref-php-4
+
+provider:
+  name: aws
+  region: eu-west-1
+  runtime: provided.al2
+  iam:
+    role:
+      statements:
+        - Sid: "ListAndDescribe"
+          Effect: "Allow"
+          Action:
+            - dynamodb:List*
+            - dynamodb:DescribeReservedCapacity*
+            - dynamodb:DescribeLimits
+            - dynamodb:DescribeTimeToLive
+          Resource: "*"
+          
+        - Sid: "AllowElephpants"
+          Effect: "Allow"
+          Action:
+          - dynamodb:Query
+          - dynamodb:Scan
+          - dynamodb:GetItem
+          - dynamodb:PutItem
+          - dynamodb:UpdateItem
+          - dynamodb:DeleteItem
+          Resource: "arn:aws:dynamodb:${aws:region}:${aws:accountId}:table/elephpant"
+
+plugins:
+  - ./vendor/bref/bref
+  - serverless-lift
+
+functions:
+  api:
+    handler: lambda/api/createElephpant.php
+    description: "Create an elephpant"
+    layers:
+      - ${bref:layer.php-81}
+    events:
+        - httpApi: 'POST /api/v1/elephpant'
+
+  frontend:
+    handler: public/index.php
+    description: ""
+    timeout: 28 # in seconds (API Gateway has a timeout of 29 seconds)
+    layers:
+      - ${bref:layer.php-81-fpm}
+    events:
+      - httpApi: "*"
+    environment:
+      SERVERLESS_STAGE: dev
+
+  console:
+    handler: bin/console
+    layers:
+      - ${bref:layer.php-81}
+      - ${bref:layer.console}
+
+constructs:
+  website:
+    type: server-side-website
+    assets:
+      "/assets/*": "public/assets"
+
+resources:
+  Resources:
+    elephpantsTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: elephpants-4
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+          - AttributeName: createdAt
+            KeyType: RANGE
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+          - AttributeName: createdAt
+            AttributeType: N
+        BillingMode: PAY_PER_REQUEST
+    ElephpantsBucket:
+        Type: 'AWS::S3::Bucket'
+        Properties:
+          AccessControl: PublicRead
+          WebsiteConfiguration:
+            IndexDocument: index.html
+            ErrorDocument: error.html
+        DeletionPolicy: Retain
+    ElephpantsBucketPolicy:
+      Type: 'AWS::S3::BucketPolicy'
+      Properties:
+        PolicyDocument:
+          Id: ElephpantBucketPolicy
+          Version: 2012-10-17
+          Statement:
+            - Sid: PublicReadForGetBucketObjects
+              Effect: Allow
+              Principal: '*'
+              Action: 's3:GetObject'
+              Resource: !Join
+                - ''
+                - - 'arn:aws:s3:::'
+                  - !Ref ElephpantsBucket
+                  - /*
+        Bucket: !Ref ElephantsBucket
+# Exclude files from deployment
+package:
+  patterns:
+    - "!node_modules/**"
+    - "!tests/**"

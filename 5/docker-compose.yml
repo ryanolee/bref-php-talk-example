@@ -1,0 +1,57 @@
+version: "3.5"
+
+services:
+  web:
+    container_name: web
+    image: bref/fpm-dev-gateway
+    ports:
+      - '8080:80'
+    volumes:
+      - .:/var/task
+    depends_on:
+      - php
+    environment:
+      HANDLER: public/index.php
+      DOCUMENT_ROOT: public
+  php:
+    container_name: php
+    image: bref/php-81-fpm-dev
+    environment:
+      SERVERLESS_STAGE: local
+    volumes:
+      - .:/var/task:ro
+
+  localstack:
+    container_name: "localstack"
+    image: localstack/localstack
+    ports:
+      - "127.0.0.1:4566:4566"            # LocalStack Gateway
+      - "127.0.0.1:4510-4559:4510-4559"  # external services port range
+    environment:
+      - DEBUG=${DEBUG-}
+      - LAMBDA_EXECUTOR=${LAMBDA_EXECUTOR-}
+      - DOCKER_HOST=unix:///var/run/docker.sock
+      - SERVICES=dynamodb,s3
+      - EAGER_SERVICE_LOADING=1
+    volumes:
+      - "./.localstack:/var/lib/localstack"
+      - "/var/run/docker.sock:/var/run/docker.sock"
+  
+  dynamodb_admin:
+    container_name: dynamodb_admin
+    image: aaronshaf/dynamodb-admin
+    ports:
+      - '8001:8001'
+    environment:
+      AWS_REGION: eu-west-1
+      AWS_ACCESS_KEY_ID: local
+      AWS_SECRET_ACCESS_KEY: local
+      DYNAMO_ENDPOINT: http://localstack:4566
+
+
+  console:
+    container_name: console
+    image: bref/php-81
+    volumes:
+      - .:/var/task:ro
+    entrypoint: php

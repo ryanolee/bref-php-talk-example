@@ -1,0 +1,15 @@
+{% extends 'layout/layout.html.twig' %}
+{% block content %}
+    {% for elephpant in elephpants %}
+        <div class="grid">
+            <div>
+                <img src="{{ elephpant.image }}" alt="{{ elephpant.name }}" />
+            </div>
+            <div>
+                <h2>{{ elephpant.name }}</h2>
+                <p>{{ elephpant.description }}</p>
+            </div>
+        </div>
+        <hr/>
+    {% endfor %}
+{% endblock %}
