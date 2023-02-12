@@ -1,9 +1,0 @@
-{
-    "name": "ryanolee/bref-php-example",
-    "description": "An example of bref php running in the serverless framework",
-    "type": "project",
-    "license": "BSC",
-    "require": {
-        "bref/bref": "^1.7"
-    }
-}
