@@ -7,7 +7,7 @@ This repository contains examples used in the ["A *bref* introduction to *server
  * composer
 
 # Section
-This repository is split a number of different sections that build in each other.
+This repository is split a number of different sections that build on each other.
 These steps are as follows:
  * [Step 1](https://github.com/ryanolee/bref-php-talk-example/tree/1): Initial configuration of bref php
  * [Step 2](https://github.com/ryanolee/bref-php-talk-example/tree/2): Provisioning infrastructure and checking connectivity
