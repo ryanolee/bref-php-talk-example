@@ -1,25 +1,17 @@
 version: "3.5"
 
 services:
-  web:
-    container_name: web
-    image: bref/fpm-dev-gateway
+  app_5:
+    container_name: app_5
+    image: bref/php-81-fpm-dev:2
     ports:
-      - '8080:80'
+      - '8080:8000'
     volumes:
       - .:/var/task
-    depends_on:
-      - php
     environment:
       HANDLER: public/index.php
       DOCUMENT_ROOT: public
-  php:
-    container_name: php
-    image: bref/php-81-fpm-dev
-    environment:
       SERVERLESS_STAGE: local
-    volumes:
-      - .:/var/task:ro
 
   localstack:
     container_name: "localstack"
@@ -38,7 +30,7 @@ services:
       - "/var/run/docker.sock:/var/run/docker.sock"
   
   dynamodb_admin:
-    container_name: dynamodb_admin
+    container_name: dynamodb_admin_5
     image: aaronshaf/dynamodb-admin
     ports:
       - '8001:8001'
@@ -50,7 +42,7 @@ services:
 
 
   console:
-    container_name: console
+    container_name: console_5
     image: bref/php-81
     volumes:
       - .:/var/task:ro

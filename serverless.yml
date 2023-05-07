@@ -3,7 +3,6 @@ service: bref-php-5
 provider:
   name: aws
   region: eu-west-1
-  runtime: provided.al2
   iam:
     role:
       statements:
@@ -40,6 +39,15 @@ provider:
             - - 'arn:aws:s3:::'
               - !Ref ElephpantsBucket
               - /*
+        
+        - Sid: "AllowElephpantsS3List"
+          Effect: "Allow"
+          Action:
+            - s3:ListBucket
+          Resource: !Join
+            - ''
+            - - 'arn:aws:s3:::'
+              - !Ref ElephpantsBucket
 
 plugins:
   - ./vendor/bref/bref
@@ -50,8 +58,7 @@ functions:
     handler: public/index.php
     description: ""
     timeout: 28 # in seconds (API Gateway has a timeout of 29 seconds)
-    layers:
-      - ${bref:layer.php-81-fpm}
+    runtime: php-81-fpm
     events:
       - httpApi: "*"
     environment:
@@ -60,9 +67,7 @@ functions:
 
   console:
     handler: bin/console
-    layers:
-      - ${bref:layer.php-81}
-      - ${bref:layer.console}
+    runtime: php-81-console
 
 constructs:
   website:
@@ -90,7 +95,14 @@ resources:
     ElephpantsBucket:
         Type: 'AWS::S3::Bucket'
         Properties:
-          AccessControl: PublicRead
+          PublicAccessBlockConfiguration:
+            BlockPublicAcls: false
+            BlockPublicPolicy: false
+            IgnorePublicAcls: false
+            RestrictPublicBuckets: false
+          OwnershipControls:      
+            Rules:
+              - ObjectOwnership: BucketOwnerPreferred
           WebsiteConfiguration:
             IndexDocument: index.html
             ErrorDocument: error.html
