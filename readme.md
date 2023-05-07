@@ -7,7 +7,7 @@ Setting up Slim boilerplate (All commands need to be run from this directory)
 # Steps
 * Run `docker-compose down` on the last stack in the `2` folder if you have not already
 * Run `composer install` + `npm install`
-* Run `composer dump-autoloads`
+* Run `composer dump-autoload`
 * You should be able to see that the lambda can form a connection with DynamoDB
 * To bootstrap container state you can run `./bin/bootstrap.sh`
 * To run the console you can run `docker-compose run console bin/console` (locally)
@@ -15,4 +15,4 @@ Setting up Slim boilerplate (All commands need to be run from this directory)
 # Deployment
 Run `node_modules/.bin/serverless remove --aws-profile=bref-php` Replacing the profile name `bref-php` with your configured AWS Profile
 
-Run `vendor/bin/bref cli bref-php-3-dev-console --region eu-west-1 --profile=bref-php  -- example` to see if your console is working
+Run `node_modules/.bin/serverless bref:cli --aws-profile=bref-php --args="example"` to see if your console is working
