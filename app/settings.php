@@ -41,7 +41,7 @@ return function (ContainerBuilder $containerBuilder) {
                 ];
 
                 $s3Options["use_path_style_endpoint"] = true;
-                $s3Options["bucketName"] = "elephpants-5";
+                $s3Options["bucketName"] = "elephpants-6";
                 $s3Options["bucketPath"] =  'http://localhost:4566/' . $s3Options["bucketName"] . "/";
             }
 

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "b75b8674900ffe27dcaba2fe37955c44",
+    "content-hash": "dba839f5cb0f24e8bf660ca74a12b4dc",
     "packages": [
         {
             "name": "aws/aws-crt-php",
@@ -227,6 +227,58 @@
                 }
             ],
             "time": "2023-04-25T08:52:06+00:00"
+        },
+        {
+            "name": "bref/extra-php-extensions",
+            "version": "1.1.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/brefphp/extra-php-extensions.git",
+                "reference": "b47f78d67ad3337e2438f8fd77bb18f36f8d275b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/brefphp/extra-php-extensions/zipball/b47f78d67ad3337e2438f8fd77bb18f36f8d275b",
+                "reference": "b47f78d67ad3337e2438f8fd77bb18f36f8d275b",
+                "shasum": ""
+            },
+            "conflict": {
+                "bref/bref": "<2.0.0"
+            },
+            "require-dev": {
+                "async-aws/core": "^1.7",
+                "async-aws/lambda": "^1.1",
+                "bref/logger": "^1.0",
+                "mnapoli/silly": "^1.7",
+                "mnapoli/silly-php-di": "^1.2",
+                "php-di/php-di": "^6.3",
+                "symfony/finder": "^5.2",
+                "symfony/http-client": "5.3.8",
+                "symfony/process": "^5.0"
+            },
+            "type": "library",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Tobias Nyholm",
+                    "email": "tobias.nyholm@gmail.com"
+                }
+            ],
+            "description": "Extra PHP extensions for your lambda application.",
+            "support": {
+                "issues": "https://github.com/brefphp/extra-php-extensions/issues",
+                "source": "https://github.com/brefphp/extra-php-extensions/tree/1.1.1"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/Nyholm",
+                    "type": "github"
+                }
+            ],
+            "time": "2023-04-28T12:55:39+00:00"
         },
         {
             "name": "brick/math",
@@ -3122,7 +3174,8 @@
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
-        "php": "^8.1"
+        "php": "^8.1",
+        "ext-imagick": "*"
     },
     "platform-dev": [],
     "plugin-api-version": "2.3.0"

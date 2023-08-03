@@ -1,4 +1,4 @@
-service: bref-php-5
+service: bref-php-6
 
 provider:
   name: aws
@@ -51,6 +51,7 @@ provider:
 
 plugins:
   - ./vendor/bref/bref
+  - ./vendor/bref/extra-php-extensions
   - serverless-lift
 
 functions:
@@ -70,6 +71,20 @@ functions:
     handler: bin/console
     runtime: php-81-console
     architecture: arm64
+  
+  imageUpload:
+    handler: src/Lambda/S3/ImageUploadHandler.php
+    runtime: php-81
+    layers:
+      - ${bref-extra:imagick-php-81}
+    events:
+      - s3:
+          bucket: !Ref ElephpantsBucket
+          existing: true
+          event: s3:ObjectCreated:*
+          rules:
+            - prefix: full/
+
 
 constructs:
   website:
@@ -82,7 +97,7 @@ resources:
     ElephpantsTable:
       Type: AWS::DynamoDB::Table
       Properties:
-        TableName: elephpants-5
+        TableName: elephpants-6
         KeySchema:
           - AttributeName: id
             KeyType: HASH

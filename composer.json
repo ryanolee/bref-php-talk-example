@@ -13,7 +13,9 @@
         "slim/slim": "^4.11",
         "slim/twig-view": "^3.3",
         "symfony/console": "^6.2",
-        "ramsey/uuid": "^4.7"
+        "ramsey/uuid": "^4.7",
+        "ext-imagick": "*",
+        "bref/extra-php-extensions": "^1.1"
     },
     "autoload": {
         "psr-4": {

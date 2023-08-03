@@ -1,8 +1,8 @@
 version: "3.5"
 
 services:
-  app_5:
-    container_name: app_5
+  app_6:
+    container_name: app_6
     image: bref/php-81-fpm-dev:2
     ports:
       - '8080:8000'
@@ -30,7 +30,7 @@ services:
       - "/var/run/docker.sock:/var/run/docker.sock"
   
   dynamodb_admin:
-    container_name: dynamodb_admin_5
+    container_name: dynamodb_admin_6
     image: aaronshaf/dynamodb-admin
     ports:
       - '8001:8001'
@@ -42,7 +42,7 @@ services:
 
 
   console:
-    container_name: console_5
+    container_name: console_6
     image: bref/php-81
     volumes:
       - .:/var/task:ro

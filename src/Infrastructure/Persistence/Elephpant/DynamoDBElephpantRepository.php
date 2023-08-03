@@ -15,7 +15,7 @@ class DynamoDBElephpantRepository implements ElephpantRepositoryInterface
     private $s3Client;
 
     private $settings;
-    const TABLE_NAME = 'elephpants-5';
+    const TABLE_NAME = 'elephpants-6';
 
     public function __construct(DynamoDbClient $client, S3Client $s3Client, SettingsInterface $settings)
     {
@@ -44,18 +44,9 @@ class DynamoDBElephpantRepository implements ElephpantRepositoryInterface
 
     public function findElephpantImageOfId($id): ?string {
         $s3Settings = $this->settings->get("s3");
-        $result = $this->s3Client->getIterator('ListObjects', [
-            'Bucket' => $s3Settings["bucketName"],
-            'Prefix' => "full/" . $id . "/image",
-        ]);
+        $path = "thumbnail/$id/image.png";
 
-        $imageObject = current(iterator_to_array($result));
-
-        if(!$imageObject) {
-            return null;
-        }
-
-        return $s3Settings["bucketPath"] .$imageObject['Key'];
+        return $s3Settings["bucketPath"] . $path;
     }
 
     public function save(Elephpant $elephpant): void
