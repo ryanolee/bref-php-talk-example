@@ -4,7 +4,7 @@
     "type": "project",
     "license": "BSC",
     "require": {
-        "bref/bref": "^1.7",
+        "bref/bref": "^2",
         "aws/aws-sdk-php": "^3.257"
     }
 }

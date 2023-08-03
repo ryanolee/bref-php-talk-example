@@ -1,32 +1,24 @@
 version: "3.5"
 
 services:
-  web:
-    container_name: web
-    image: bref/fpm-dev-gateway
+  app:
+    container_name: app_2
+    image: bref/php-81-fpm-dev:2
     ports:
-      - '8080:80'
+      - '8080:8000'
     volumes:
       - .:/var/task
-    depends_on:
-      - php
     environment:
       HANDLER: index.php
-  php:
-    container_name: php
-    image: bref/php-81-fpm-dev
-    environment:
       SERVERLESS_STAGE: local
-    volumes:
-      - .:/var/task:ro
   dynamodb:
-    container_name: dynamodb
+    container_name: dynamodb_2
     image: amazon/dynamodb-local
     ports:
       - '8000:8000'
   
   dynamodb_admin:
-    container_name: dynamodb_admin
+    container_name: dynamodb_admin_2
     image: aaronshaf/dynamodb-admin
     ports:
       - '8001:8001'
@@ -34,4 +26,4 @@ services:
       AWS_REGION: eu-west-1
       AWS_ACCESS_KEY_ID: local
       AWS_SECRET_ACCESS_KEY: local
-      DYNAMO_ENDPOINT: http://dynamodb:8000
+      DYNAMO_ENDPOINT: http://dynamodb_2:8000

@@ -9,7 +9,7 @@ function getDynamoDbClient() {
         'version' => 'latest',
     ];
     if($_ENV["SERVERLESS_STAGE"] === "local") {
-        $options['endpoint'] = 'http://dynamodb:8000';
+        $options['endpoint'] = 'http://dynamodb_2:8000';
         $options['credentials'] = [
            'key' => 'local',
            'secret' => 'local',
